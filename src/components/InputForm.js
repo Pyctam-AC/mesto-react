@@ -9,13 +9,11 @@ function InputForm(props) {
         name={props.name}
         placeholder={props.placeholder}
         onChange={props.handleChange}
-        className={`popup__input popup__input_type_${props.name}`} />
+        className={`popup__input popup__input_type_${props.name}`}
+      />
       <span className={`error input-error-${props.name}`}></span>
     </>
-  )
+  );
 }
 
 export default InputForm;
-
-
-
