@@ -1,10 +1,11 @@
 import React from 'react';
-import { useState, useEffect } from "react";
-import Header from "../components/header/Header";
-import Main from "../components/main/Main";
-import Footer from "../components/footer/Footer";
-import PopupWithForm from "../components/popupWithForm/PopupWithForm"
-import InputForm from '../components/inputForm/InputForm';
+import { useState } from "react";
+import Header from "../components/Header";
+import Main from "../components/Main";
+import Footer from "../components/Footer";
+import PopupWithForm from "../components/PopupWithForm"
+import InputForm from '../components/InputForm';
+import ImagePopup from '../components/ImagePopup';
 
 
 
@@ -12,15 +13,22 @@ function App() {
 
   const [isNewCardPopupVisible, setNewCardPopupVisible] = useState(false);
   const [isPhotoCardPopupVisible, setPhotoCardPopupVisible] = useState(false);
+  const [selectedCard, setCardPopup] = useState()
   const [isProfilePopupVisible, setProfilePopupVisible] = useState(false);
   const [isAvatarPopupVisible, setAvatarPopupVisible] = useState(false);
   const [inputValue, setInputValue] = useState('')
 
+  function onPopupImage (card) {
+    setPhotoCardPopupVisible(true);
+    setCardPopup(card)
+
+  }
 
   function closeAllPopups () {
     setProfilePopupVisible(false)
     setNewCardPopupVisible(false)
     setAvatarPopupVisible(false)
+    setPhotoCardPopupVisible(false)
   }
 
   return (
@@ -31,6 +39,8 @@ function App() {
         onEditProfile={() => setProfilePopupVisible(true)}
         onAddPlace={() => setNewCardPopupVisible(true)}
         onEditAvatar={() => setAvatarPopupVisible(true)}
+        onCardClick={(card) =>
+          onPopupImage(card)}
       />
 
       <Footer />
@@ -51,9 +61,7 @@ function App() {
           required = {true}
           handleChange = {(evt) => setInputValue(evt.target.value)}
         />
-
       </PopupWithForm>
-
 
       <PopupWithForm
         isOpen = {isNewCardPopupVisible}
@@ -71,7 +79,6 @@ function App() {
           required = {true}
           handleChange = {(evt) => setInputValue(evt.target.value)}
         />
-
       </PopupWithForm>
 
       <PopupWithForm
@@ -86,25 +93,13 @@ function App() {
           required = {true}
           handleChange = {(evt) => setInputValue(evt.target.value)}
         />
-
       </PopupWithForm>
 
-
-
-
-      <template id="place__item">
-        <li className="place__item">
-          <button type="button" className="place__trash"></button>
-          <img type="button" src="#" className="place__img" alt=""/>
-          <div className="place__text">
-            <h2 className="place__title"></h2>
-            <div className="place__container-like">
-              <button type="button" className="like-button"></button>
-              <p className="place__like"></p>
-            </div>
-          </div>
-        </li>
-      </template>
+      <ImagePopup
+        isOpen={isPhotoCardPopupVisible}
+        card={selectedCard}
+        isClose = {() => closeAllPopups()}
+      />
 
     </div>
   );
