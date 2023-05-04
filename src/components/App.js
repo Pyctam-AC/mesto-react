@@ -25,7 +25,6 @@ function App() {
   const [isAvatarPopupVisible, setAvatarPopupVisible] = useState(false);
   const [isDeleteCardPopupVisible, deleteCardPopupVisible] = useState(false);
 
-
   useEffect(() => {
     Promise.all([api.getInfoProfile(), api.getInitialCards()])
       .then(([userInfo, cards]) => {
@@ -81,7 +80,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
   }
 
   const handleAddPlaceSubmit = (dataNewPlace) => {

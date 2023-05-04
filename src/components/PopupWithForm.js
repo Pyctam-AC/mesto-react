@@ -26,7 +26,7 @@ function PopupWithForm(props) {
             className={`popup__add-button ${
               props.disabled && "popup__add-button_disabled"
             }`}
-            onClick={props.onClose}
+            /* onClick={props.onClose} */
           >
             {props.buttonTitle}
           </button>
