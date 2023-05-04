@@ -38,13 +38,13 @@ class Api {
     .then(res => this._getResult (res))
   }
 
-  setNewCard (name, link) {
+  setNewCard (data) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        link: link
+        name: data.name,
+        link: data.link
       })
     })
     .then(res => this._getResult (res))
@@ -60,7 +60,7 @@ class Api {
 
   setLikeCard (cardID, method) {
     return fetch(`${this._url}/cards/${cardID}/likes`, {
-      method: method,
+      method: `${method ? "PUT" : "DELETE"}`,
       headers: this._headers,
     })
     .then(res => this._getResult (res))
@@ -71,7 +71,7 @@ class Api {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data
+        avatar: data.avatar
       })
     })
     .then(res => this._getResult (res))

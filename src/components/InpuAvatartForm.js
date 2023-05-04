@@ -1,6 +1,6 @@
+import { forwardRef } from 'react';
 
-
-function InputForm (props) {
+const InputAvatarForm = forwardRef(function InputAvatarForm(props, ref) {
   return (
     <>
       <input
@@ -9,14 +9,13 @@ function InputForm (props) {
         minLength={props.minLength}
         maxLength={props.maxLength}
         name={props.name}
-        value={props.value}
+        ref={ref}
         placeholder={props.placeholder}
-        onChange={props.onChange}
         className={`popup__input popup__input_type_${props.name}`}
       />
       <span className={`error input-error-${props.name}`}></span>
     </>
   );
-}
+})
 
-export default InputForm;
+export default InputAvatarForm;
