@@ -3,7 +3,7 @@
   color: rgba(0, 0, 0, .2);
   box-shadow: 0px 0px 25px rgba(0, 0, 0, .15);
   border-color: rgba(0, 0, 0, .2);
-  cursor: not-allowed;
+  cursor: auto;
 }
 
 .popup__add-button_disabled:hover {

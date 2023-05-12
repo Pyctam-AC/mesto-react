@@ -1,7 +1,8 @@
 .footer {
   margin-right: auto;
   margin-left: auto;
-  margin-top: 47px;
+
+  margin-top: min(47px);
   padding-bottom: 60px;
   max-width: 880px;
 }
@@ -10,7 +11,7 @@
   .footer {
     margin-right: 20px;
     margin-left: 20px;
-    margin-top: 29px;
+    margin-top: min(29px);
     padding-bottom: 34px;
   }
 }

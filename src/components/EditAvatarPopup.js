@@ -1,38 +1,64 @@
 import React from "react";
-import PopupWithForm from './PopupWithForm'
-import InputAvatarForm from './InpuAvatartForm'
+import PopupWithForm from "./PopupWithForm";
+import InputForm from "./InputForm";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-function EditAvatarPopup ({isOpen, onClose, onUpdateAvatar}) {
+function EditAvatarPopup({
+  isOpen,
+  onClose,
+  onUpdateAvatar,
+  isLoading,
+  closeOverlay,
+}) {
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: "onChange",
+  });
 
-  const avatarRef = React.useRef(null);
+  useEffect(() => {
+    if (isOpen) {
+      reset({
+        avatar: "",
+      });
+    }
+  }, [isOpen, reset]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    onUpdateAvatar({
-      avatar: avatarRef.current.value
-    });
-    avatarRef.current.value = '';
-  }
+  const onSubmit = (data) => {
+    onUpdateAvatar(data);
+  };
 
   return (
     <PopupWithForm
       isOpen={isOpen}
       name="avatar"
       title="Обновить аватар"
-      buttonTitle="Сохранить"
+      buttonTitle={isLoading ? "Сохранение..." : "Сохранить"}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      closeOverlay={closeOverlay}
+      onSubmit={handleSubmit(onSubmit)}
+      isValid={isValid}
+      isDirty={true}
     >
-      <InputAvatarForm
+      <InputForm
         type="url"
+        {...register("avatar", {
+          required: "Напишите ссылку на картинку",
+          pattern: {
+            value: /https?:\/\/(?:[-\w]+\.)?([-\w]+)\.\w+(?:\.\w+)?\/?.*/i,
+            message: "Это не ссылка",
+          },
+        })}
         name="avatar"
         placeholder="Ссылка на картинку"
-        required
-        ref={avatarRef}
+        errors={errors}
       />
     </PopupWithForm>
-  )
+  );
 }
 
-export default EditAvatarPopup
+export default EditAvatarPopup;

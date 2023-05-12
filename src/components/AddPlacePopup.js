@@ -1,62 +1,82 @@
 import React from "react";
-import { useState } from "react";
-import PopupWithForm from './PopupWithForm'
-import InputForm from './InputForm'
+import { useEffect } from "react";
+import PopupWithForm from "./PopupWithForm";
+import InputForm from "./InputForm";
+import { useForm } from "react-hook-form";
 
-function AddPlacePopup({isOpen, onClose, onAddPlace}) {
+function AddPlacePopup({
+  isOpen,
+  onClose,
+  onAddPlace,
+  isLoading,
+  closeOverlay,
+}) {
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: "onChange",
+  });
 
-  const [name, setName] = useState('');
-  const [link, setLink] = useState('');
+  const onSubmit = (data) => {
+    onAddPlace(data);
+  };
 
-  const handleNameChange = (e) => {
-    setName(e.target.value)
-  }
-
-  const handleLinkChange = (e) => {
-    setLink(e.target.value)
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    onAddPlace({
-      name,
-      link
-    });
-    setName('');
-    setLink('');
-  }
+  useEffect(() => {
+    if (isOpen) {
+      reset({
+        name: "",
+        link: "",
+      });
+    }
+  }, [isOpen, reset]);
 
   return (
     <PopupWithForm
       isOpen={isOpen}
       name="place"
       title="Новое место"
-      buttonTitle="Создать"
+      buttonTitle={isLoading ? "Сохранение..." : "Сохранить"}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      closeOverlay={closeOverlay}
+      onSubmit={handleSubmit(onSubmit)}
+      isValid={isValid}
+      isDirty={true}
     >
       <InputForm
         type="text"
-        minLength="2"
-        maxLength="30"
+        {...register("name", {
+          required: "Напишите название",
+          minLength: {
+            value: 2,
+            message: "Минимум два символа",
+          },
+          maxLength: {
+            value: 40,
+            message: "Максимум сорок символов",
+          },
+        })}
         name="name"
         placeholder="Название"
-        required
-        value={name}
-        onChange={handleNameChange}
+        errors={errors}
       />
       <InputForm
         type="url"
+        {...register("link", {
+          required: "Заполните это поле",
+          pattern: {
+            value: /https?:\/\/(?:[-\w]+\.)?([-\w]+)\.\w+(?:\.\w+)?\/?.*/i,
+            message: "Это не ссылка",
+          },
+        })}
         name="link"
+        errors={errors}
         placeholder="Ссылка на картинку"
-        required
-        value={link}
-        onChange={handleLinkChange}
       />
     </PopupWithForm>
   );
-
 }
 
-export default AddPlacePopup
+export default AddPlacePopup;

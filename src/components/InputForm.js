@@ -1,22 +1,37 @@
+import { forwardRef } from 'react';
 
-
-function InputForm (props) {
+const InputForm = forwardRef(
+  function InputForm ({
+    type,
+    name,
+    placeholder,
+    onChange,
+    errors
+  },
+    ref
+  ) {
   return (
     <>
       <input
-        required={props.required}
-        type={props.type}
-        minLength={props.minLength}
-        maxLength={props.maxLength}
-        name={props.name}
-        value={props.value}
-        placeholder={props.placeholder}
-        onChange={props.onChange}
-        className={`popup__input popup__input_type_${props.name}`}
+        ref={ref}
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        onChange={onChange}
+        className={`popup__input popup__input_type_${name} ${errors[name]? "popup__input_invalid" : ""}`}
       />
-      <span className={`error input-error-${props.name}`}></span>
+      {errors &&
+        <span className={`error input-error-${name}`}>
+          {errors[name]?.message || ""}
+        </span>
+      }
     </>
   );
-}
+})
 
 export default InputForm;
+
+/* {`
+          popup__input
+           ${errors ? 'popup__input_invalid' : ''}
+           `} */

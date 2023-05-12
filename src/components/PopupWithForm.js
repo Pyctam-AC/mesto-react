@@ -1,11 +1,13 @@
 import React from "react";
 
 function PopupWithForm(props) {
+
   return (
     <div
       className={`popup popup_${props.name} ${
         props.isOpen ? "popup_opened" : ""
       }`}
+      onClick={props.closeOverlay}
     >
       <div className="popup__container">
         <button
@@ -24,9 +26,9 @@ function PopupWithForm(props) {
           <button
             type="submit"
             className={`popup__add-button ${
-              props.disabled && "popup__add-button_disabled"
+              !props.isValid || !props.isDirty ? "popup__add-button_disabled" : ""
             }`}
-            /* onClick={props.onClose} */
+            disabled={!props.isValid || !props.isDirty}
           >
             {props.buttonTitle}
           </button>

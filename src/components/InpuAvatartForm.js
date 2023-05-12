@@ -13,7 +13,9 @@ const InputAvatarForm = forwardRef(function InputAvatarForm(props, ref) {
         placeholder={props.placeholder}
         className={`popup__input popup__input_type_${props.name}`}
       />
-      <span className={`error input-error-${props.name}`}></span>
+      <span className={`error input-error-${props.name}`}>
+        {props.name.message}
+      </span>
     </>
   );
 })

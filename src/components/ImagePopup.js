@@ -1,6 +1,11 @@
-function ImagePopup({isOpen, onClose, card}) {
+import React from "react";
+
+function ImagePopup({ isOpen, onClose, card, closeOverlay, closeEsc }) {
+
   return (
-    <div className={`popup popup_img ${isOpen ? "popup_opened" : ""}`}>
+    <div className={`popup popup_img ${isOpen ? "popup_opened" : ""}`}
+    onClick={closeOverlay}
+    >
       <div className="popup__container-image">
         <button
           type="button"
@@ -8,14 +13,8 @@ function ImagePopup({isOpen, onClose, card}) {
           onClick={onClose}
         ></button>
         <figure className="popup__figure">
-          <img
-            className="popup__image"
-            src={card?.link}
-            alt={card?.name}
-          />
-          <figcaption className="popup__figurcap">
-            {card?.name}
-          </figcaption>
+          <img className="popup__image" src={card?.link} alt={card?.name} />
+          <figcaption className="popup__figurcap">{card?.name}</figcaption>
         </figure>
       </div>
     </div>

@@ -1,9 +1,8 @@
 import React from 'react';
-import { useState, useEffect } from "react";
-import api from '../utils/Api';
 import Card from './Card';
 import {CurrentUserContext} from '../contexts/CurrentUserContext'
 import {CardsContext} from '../contexts/CardsContext';
+import Spinner from './Spinner';
 
 function Main({
   onEditAvatar,
@@ -11,7 +10,8 @@ function Main({
   onAddPlace,
   onCardClick,
   onLikeClick,
-  onCardDelete}) {
+  onCardDelete,
+  isLoading}) {
 
   const currentUser = React.useContext(CurrentUserContext);
   const cards = React.useContext(CardsContext);
@@ -22,15 +22,19 @@ function Main({
       <section className="profile">
         <div className="profile__info">
           <div onClick={onEditAvatar} className="profile__avatar">
-            <img
-              src={currentUser?.avatar}
-              className="profile__photo"
-              alt="фото аватара"
-            />
+          {isLoading
+            ? <Spinner />
+            : <img
+                src={currentUser?.avatar}
+                className="profile__photo"
+                alt="фото аватара"
+              />
+          }
+
           </div>
           <div className="profile__text">
-            <h1 className="profile__title">{currentUser?.name}</h1>
-            <p className="profile__subtitle">{currentUser?.about}</p>
+            <h1 className="profile__title">{isLoading? "" : currentUser?.name}</h1>
+            <p className="profile__subtitle">{isLoading? "" : currentUser?.about}</p>
           </div>
           <button
             onClick={onEditProfile}
